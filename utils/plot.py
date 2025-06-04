@@ -1,3 +1,5 @@
+import matplotlib.pyplot as plt
+
 def plot_loss_accuracy(
         lr,
         num_epochs,
