@@ -1,33 +1,22 @@
 class AdamWScheduleFree(torch.optim.Optimizer):
     def __init__(
             self,
-            params: ParamsT,
-            lr: Union[float, torch.Tensor] = 0.0025,
-            betas: Tuple[float, float] = (0.9, 0.999), # 第一引数=重み付け係数、第二引数=二次モーメント係数
+            params,
+            lr = 0.0025,
+            betas = (0.9, 0.999),
             eps: float = 1e-8,
-            weight_decay: float = 0,
-            # warmup_steps: int = 0, # ウォームアップ期間のステップ数
-            # r: float = 0,# 学習履歴の重み係数（多項式べき）
-            # weight_lr_power: float = 2,
-            # decay_at_z: bool = False,
-            # foreach: Optional[bool] = False, # ツカワナイ
+            weight_decay: float = 0
         ):
 
         defaults = dict(
             lr=lr,
             betas=betas,
             eps=eps,
-            # r=r,
             k=0,
-            # warmup_steps=warmup_steps,
             train_mode = False,
-            # weight_sum=0.0,
-            # lr_max=-1.0,
-            # scheduled_lr=0.0,
-            # weight_lr_power=weight_lr_power,
-            # decay_at_z=decay_at_z,
             weight_decay=weight_decay
         )
+        
         super().__init__(params, defaults)
 
     # --- モード切替用 ---
