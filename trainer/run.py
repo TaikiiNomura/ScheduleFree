@@ -1,7 +1,12 @@
+import torch
+import torch.nn.functional as F
+from tqdm import tqdm
+
 def train(log_interval, model, device, train_loader, optimizer, epoch, train_losses, train_accuracies, is_schedulefree):
     model.train()
     if is_schedulefree:
         optimizer.train()
+    
     running_loss = 0
     correct = 0
     total = 0
@@ -25,13 +30,15 @@ def train(log_interval, model, device, train_loader, optimizer, epoch, train_los
 
     avg_loss = running_loss / len(train_loader)
     accuracy = 100. * correct / total
-    train_losses.append(avg_loss)
-    train_accuracies.append(accuracy)
+    
+    return avg_loss, accuracy
 
 def test(model, device, test_loader, optimizer, test_losses, test_accuracies, is_schedulefree):
     model.eval()
+    
     if is_schedulefree:
         optimizer.eval()
+    
     test_loss = 0
     correct = 0
     accuracy = 0
@@ -53,7 +60,18 @@ def test(model, device, test_loader, optimizer, test_losses, test_accuracies, is
     print(f'Accuracy: {correct}/{len(test_loader.dataset)}')
     print(f'({accuracy:.2f}%)\n')
 
-def run_schedulefree(model, optimizer, optimizer_type, optimizer_name):
+    return test_loss, accuracy
+
+def run_schedulefree(
+        model,
+        optimizer,
+        num_epochs,
+        log_interval,
+        device,
+        train_loader,
+        test_loader,
+        optimizer_type,
+        optimizer_name):
 
     train_losses = []
     train_accuracies = []
@@ -61,32 +79,32 @@ def run_schedulefree(model, optimizer, optimizer_type, optimizer_name):
     test_accuracies = []
 
     for epoch in range(1, num_epochs + 1):
+        
         if optimizer_type == 'schedulefree':
             is_schedulefree=True
         else:
             is_schedulefree=False
-        train(
+        
+        epoch_train_loss, epoch_train_accuracy = train(
             log_interval,
             model,
             device,
             train_loader,
             optimizer,
             epoch,
-            train_losses,
-            train_accuracies,
             is_schedulefree=is_schedulefree
         )
-        test(
+        train_losses.append(epoch_train_loss)
+        train_accuracies.append(epoch_train_accuracy)
+
+        epoch_test_loss, epoch_test_accuracy = test(
             model,
             device,
             test_loader,
             optimizer,
-            test_losses,
-            test_accuracies,
             is_schedulefree=is_schedulefree
         )
+        test_losses.append(epoch_test_loss)
+        test_accuracies.append(epoch_test_accuracy)
 
-    all_train_losses[optimizer_name].append(train_losses)
-    all_train_accuracies[optimizer_name].append(train_accuracies)
-    all_test_losses[optimizer_name].append(test_losses)
-    all_test_accuracies[optimizer_name].append(test_accuracies)
+    return train_losses, train_accuracies, test_losses, test_accuracies
