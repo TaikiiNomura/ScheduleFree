@@ -10,6 +10,7 @@ class AdinaScheduleFree(torch.optim.Optimizer):
         b = 0.9,
         num_schedulefree = 0.9
     ):
+        
         defaults = dict(
             lr=lr,
             beta1=beta1,
@@ -20,7 +21,8 @@ class AdinaScheduleFree(torch.optim.Optimizer):
             num_schedulefree=num_schedulefree,
             train_mode=False
         )
-        super(Adina_schedulefree_reference, self).__init__(params, defaults)
+        
+        super().__init__(params, defaults)
 
     @torch.no_grad()
     def eval(self):
