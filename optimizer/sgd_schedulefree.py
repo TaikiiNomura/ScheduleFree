@@ -1,18 +1,20 @@
 class SGDScheduleFree(torch.optim.Optimizer):
-    def __init__(self,
-                 params: ParamsT,
-                 lr: Union[float, torch.Tensor] = 1.0,
-                 r: float = 0.0,
-                 beta: float = 0.9,
-                 foreach: Optional[bool] = hasattr(torch, "_foreach_mul_"),
-                 ):
-        defaults = dict(lr=lr,
-                        r=r,
-                        k=0,
-                        train_mode=True,
-                        beta = beta,
-                        foreach=foreach
+    def __init__(
+            self,
+            params,
+            lr = 0.01,
+            r = 0.0,
+            beta = 0.9
+    ):
+        
+        defaults = dict(
+            lr = lr,
+            r = r,
+            k = 0,
+            train_mode = True,
+            beta = beta
         )
+        
         super().__init__(params, defaults)
 
     @torch.no_grad()
