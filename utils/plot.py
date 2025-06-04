@@ -1,4 +1,12 @@
-def plot_loss_accuracy(all_train_losses, all_train_accuracies, all_test_losses, all_test_accuracies):
+def plot_loss_accuracy(
+        lr,
+        num_epochs,
+        batch_size,
+        all_train_losses,
+        all_train_accuracies,
+        all_test_losses,
+        all_test_accuracies,
+        optimizer_info):
     print(f'lr = {lr}')
     print(f'batch_size = {batch_size}')
     plt.figure(figsize=(14, 10))
