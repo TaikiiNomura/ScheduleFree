@@ -2,21 +2,23 @@ class Adina(torch.optim.Optimizer):
     def __init__(
             self,
             params,
-            lr=1e-3,
-            beta1=0.9,
-            beta2=0.999,
-            eps=1e-8,
-            a=0.1,
-            b=0.9
+            lr = 1e-3,
+            beta1 = 0.9,
+            beta2 = 0.999,
+            eps = 1e-8,
+            a = 0.1,
+            b = 0.9
     ):
+        
         defaults = dict(
-            lr=lr,
-            beta1=beta1,
-            beta2=beta2,
-            eps=eps,
-            a=a,
-            b=b
+            lr = lr,
+            beta1 = beta1,
+            beta2 = beta2,
+            eps = eps,
+            a = a,
+            b = b
         )
+        
         super(Adina, self).__init__(params, defaults)
 
     def step(self, closure=None):
