@@ -1,4 +1,4 @@
-class Adina_schedulefree(torch.optim.Optimizer):
+class AdinaScheduleFree(torch.optim.Optimizer):
     def __init__(
         self,
         params,
