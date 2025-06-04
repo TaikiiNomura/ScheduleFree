@@ -18,8 +18,9 @@ class AdamWScheduleFree(torch.optim.Optimizer):
             params,
             lr = 0.0025,
             betas = (0.9, 0.999),
-            eps: float = 1e-8,
-            weight_decay: float = 0
+            eps = 1e-8,
+            weight_decay = 0,
+            num_schedulefree=0.9
         ):
 
         defaults = dict(
@@ -28,7 +29,8 @@ class AdamWScheduleFree(torch.optim.Optimizer):
             eps=eps,
             k=0,
             train_mode = False,
-            weight_decay=weight_decay
+            weight_decay=weight_decay,
+            num_schedulefree=num_schedulefree
         )
         
         super().__init__(params, defaults)
@@ -82,6 +84,11 @@ class AdamWScheduleFree(torch.optim.Optimizer):
             decay = group['weight_decay']
             beta1, beta2 = group['betas']
             k = group['k']
+            num_schedulefree = group['num_schedulefree']
+            
+            if closure is not None:
+                with torch.enable_grad():
+                    loss = closure()
             # r = group['r']
             # warmup_steps = group['warmup_steps']
             # weight_lr_power = group['weight_lr_power']
@@ -140,7 +147,7 @@ class AdamWScheduleFree(torch.optim.Optimizer):
                 # --- 移動平均の更新 ---
                 x.mul_(1-ckp1).add_(z, alpha=ckp1)
 
-                y.copy_(x.mul(beta1).add_(z, alpha=1-beta1))
+                y.copy_(x.mul(num_schedulefree).add_(z, alpha=1-num_schedulefree))
 
                 # モデルのパラメータ更新
                 p.copy_(y)
