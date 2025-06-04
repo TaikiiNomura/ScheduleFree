@@ -2,7 +2,7 @@ import torch
 import torch.nn.functional as F
 from tqdm import tqdm
 
-def train(log_interval, model, device, train_loader, optimizer, epoch, train_losses, train_accuracies, is_schedulefree):
+def train(log_interval, model, device, train_loader, optimizer, epoch, is_schedulefree):
     model.train()
     if is_schedulefree:
         optimizer.train()
@@ -33,7 +33,7 @@ def train(log_interval, model, device, train_loader, optimizer, epoch, train_los
     
     return avg_loss, accuracy
 
-def test(model, device, test_loader, optimizer, test_losses, test_accuracies, is_schedulefree):
+def test(model, device, test_loader, optimizer, is_schedulefree):
     model.eval()
     
     if is_schedulefree:
@@ -41,7 +41,7 @@ def test(model, device, test_loader, optimizer, test_losses, test_accuracies, is
     
     test_loss = 0
     correct = 0
-    accuracy = 0
+    # accuracy = 0
     with torch.no_grad():
         for data, target in test_loader:
             data, target = data.to(device), target.to(device)
@@ -51,10 +51,10 @@ def test(model, device, test_loader, optimizer, test_losses, test_accuracies, is
             correct += pred.eq(target.view_as(pred)).sum().item()
 
     test_loss /= len(test_loader.dataset)
-    accuracy += 100. * correct / len(test_loader.dataset)
+    accuracy = 100. * correct / len(test_loader.dataset)
 
-    test_losses.append(test_loss)
-    test_accuracies.append(accuracy)
+    # test_losses.append(test_loss)
+    # test_accuracies.append(accuracy)
 
     print(f'\nTest set: Average loss: {test_loss:.4f}')
     print(f'Accuracy: {correct}/{len(test_loader.dataset)}')
@@ -101,6 +101,7 @@ def run_schedulefree(
             model,
             device,
             test_loader,
+
             optimizer,
             is_schedulefree=is_schedulefree
         )
