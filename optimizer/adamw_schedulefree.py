@@ -1,13 +1,3 @@
-from typing import Tuple, Union, Optional, Iterable, Dict, Callable, Any
-from typing_extensions import TypeAlias
-import torch
-import torch.optim
-try:
-    from torch.optim.optimizer import ParamsT
-except ImportError:
-    ParamsT : TypeAlias = Union[Iterable[torch.Tensor], Iterable[Dict[str, Any]]]
-import math
-
 class AdamWScheduleFree(torch.optim.Optimizer):
     def __init__(
             self,
