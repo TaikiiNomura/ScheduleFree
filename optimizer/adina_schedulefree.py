@@ -1,14 +1,4 @@
-from typing import Tuple, Union, Optional, Iterable, Dict, Callable, Any
-from typing_extensions import TypeAlias
-import torch
-import torch.optim
-try:
-    from torch.optim.optimizer import ParamsT
-except ImportError:
-    ParamsT : TypeAlias = Union[Iterable[torch.Tensor], Iterable[Dict[str, Any]]]
-import math
-
-class Adina_schedulefree_reference(torch.optim.Optimizer):
+class Adina_schedulefree(torch.optim.Optimizer):
     def __init__(
         self,
         params,
