@@ -44,5 +44,3 @@ def plot_loss_accuracy(all_train_losses, all_train_accuracies, all_test_losses, 
 
     plt.tight_layout()
     plt.show()
-
-plot_loss_accuracy(all_train_losses, all_train_accuracies, all_test_losses, all_test_accuracies)
