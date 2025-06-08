@@ -12,7 +12,7 @@ from torchvision import datasets, transforms
 from typing import Union, Tuple, Optional, Callable
 from torch.optim.optimizer import ParamsT
 
-class AdinaScheduleFree(torch.optim.Optimizer):
+class AdinaWScheduleFree(torch.optim.Optimizer):
     def __init__(
         self,
         params,
