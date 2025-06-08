@@ -35,7 +35,7 @@ class AdinaW(torch.optim.Optimizer):
             weight_decay = weight_decay
         )
         
-        super(Adina, self).__init__(params, defaults)
+        super(AdinaW, self).__init__(params, defaults)
 
     def step(self, closure=None):
         loss = None
