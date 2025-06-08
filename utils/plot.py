@@ -27,7 +27,7 @@ def plot_loss_accuracy(
     # ---- 損失（テスト）----
     plt.subplot(2, 2, 2)
     for name, info in optimizer_info.items():
-        plt.plot(range(1, num_epochs + 1), all_test_losses[name], label=info['label'], color=info['color'])
+        plt.plot(range(len(all_test_losses[name])), all_test_losses[name], label=info['label'], color=info['color'])
     plt.xlabel('Epoch')
     plt.ylabel('Test Loss')
     plt.title(f'batch_size={batch_size}')
@@ -47,7 +47,7 @@ def plot_loss_accuracy(
     # ---- 精度（テスト）----
     plt.subplot(2, 2, 4)
     for name, info in optimizer_info.items():
-        plt.plot(range(1, num_epochs + 1), all_test_accuracies[name], label=info['label'], color=info['color'])
+        plt.plot(range(len(all_test_losses[name])), all_test_accuracies[name], label=info['label'], color=info['color'])
     plt.xlabel('Epoch')
     plt.ylabel('Test Accuracy (%)')
     plt.title(f'batch_size={batch_size}')
