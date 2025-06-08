@@ -22,7 +22,7 @@ class Adina(torch.optim.Optimizer):
             eps = 1e-8,
             a = 0.1,
             b = 0.9,
-            weight_decay = 0.0;
+            weight_decay = 0.0
     ):
         
         defaults = dict(
