@@ -62,6 +62,23 @@ def test(model, device, test_loader, optimizer, is_schedulefree):
 
     return test_loss, accuracy
 
+# 初期状態での損失と精度を計算する関数
+def evaluate_initial_state(model, test_loader, device):
+    model.eval()
+    test_loss = 0
+    correct = 0
+    with torch.no_grad():
+        for data, target in test_loader:
+            data, target = data.to(device), target.to(device)
+            output = model(data)
+            test_loss += F.cross_entropy(output, target, reduction='sum').item()
+            pred = output.argmax(dim=1, keepdim=True)
+            correct += pred.eq(target.view_as(pred)).sum().item()
+
+    test_loss /= len(test_loader.dataset)
+    accuracy = 100. * correct / len(test_loader.dataset)
+    return test_loss, accuracy
+
 def run_schedulefree(
         model,
         optimizer,
@@ -77,6 +94,15 @@ def run_schedulefree(
     train_accuracies = []
     test_losses = []
     test_accuracies = []
+
+    first_train_loss, first_train_accuracy = evaluate_initial_state(
+        model,
+        test_loader,
+        device
+    )
+    
+    test_losses.append(first_train_loss)
+    test_accuracies.append(first_train_accuracy)
 
     for epoch in range(1, num_epochs + 1):
         
