@@ -12,7 +12,7 @@ from torchvision import datasets, transforms
 from typing import Union, Tuple, Optional, Callable
 from torch.optim.optimizer import ParamsT
 
-class Adina(torch.optim.Optimizer):
+class AdinaW(torch.optim.Optimizer):
     def __init__(
             self,
             params,
