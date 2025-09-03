@@ -1,5 +1,5 @@
 # 202508NLP
-[研究会詳細](#https://ken.ieice.org/ken/paper/20250807kcML/)
+電子情報通信学会　非線形問題研究会　
 
 ## optimizer内にアルゴリズムのコードがあります
 - adinaw?schedulefree
